@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ember Pantry Mosaic · recipe authority</title>
+  <!-- Font & minimal style, unique typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:opsz,wght@14..32,400;14..32,600;14..32,700&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9f5f0;
+      color: #2a241e;
+      line-height: 1.7;
+      padding: 0 1.5rem;
+    }
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 1.5rem 0 3rem;
+    }
+    /* unique spacing & card design */
+    h1, h2, h3, h4 {
+      font-family: 'Source Serif Pro', serif;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+    h2 {
+      font-size: 2rem;
+      border-bottom: 2px solid #d8cdc0;
+      padding-bottom: 0.4rem;
+      margin-top: 3rem;
+    }
+    h3 {
+      font-size: 1.5rem;
+      margin-top: 1.8rem;
+    }
+    p {
+      margin-bottom: 1.25rem;
+      font-weight: 350;
+      max-width: 75ch;
+    }
+    a {
+      color: #8b5e3c;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px dotted #d4bfae;
+    }
+    a:hover {
+      color: #4c3522;
+      border-bottom: 2px solid #8b5e3c;
+    }
+    .btn {
+      display: inline-block;
+      background: #2a241e;
+      color: #f9f5f0;
+      padding: 0.6rem 1.6rem;
+      border-radius: 40px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      border: none;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      border-bottom: none;
+    }
+    .btn:hover {
+      background: #4f3f32;
+      color: #fff;
+      border-bottom: none;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #2a241e;
+      color: #2a241e;
+    }
+    .btn-outline:hover {
+      background: #2a241e;
+      color: #f9f5f0;
+    }
+    /* header / navigation */
+    .site-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0 1rem;
+      border-bottom: 2px solid #e1d5c9;
+      margin-bottom: 2rem;
+    }
+    .logo {
+      font-family: 'Source Serif Pro', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #3b2c1e;
+    }
+    .logo span {
+      color: #9d7a5c;
+      font-weight: 400;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    .nav-links a {
+      border-bottom: none;
+      color: #3b2c1e;
+    }
+    .nav-links a:hover {
+      color: #8b5e3c;
+      border-bottom: 2px solid #8b5e3c;
+    }
+    /* hero – detailed intro */
+    .hero {
+      background: #eee7df;
+      padding: 2.8rem 2.8rem;
+      border-radius: 40px;
+      margin-bottom: 3.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    }
+    .hero-content {
+      flex: 2;
+      min-width: 280px;
+    }
+    .hero-content h1 {
+      margin-top: 0;
+      font-size: 2.6rem;
+    }
+    .hero-content p {
+      font-size: 1.1rem;
+      max-width: 90%;
+    }
+    .hero-image {
+      flex: 1;
+      min-width: 140px;
+      text-align: right;
+    }
+    .hero-image img {
+      max-width: 100%;
+      border-radius: 60px 20px 60px 20px;
+      box-shadow: 0 12px 24px -8px rgba(0,0,0,0.1);
+    }
+    .featured-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem 1.2rem;
+      margin-top: 1.2rem;
+    }
+    .featured-topics span {
+      background: #ffffffd0;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      border: 1px solid #d3c3b4;
+    }
+    /* card layout – unique cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0 2.5rem;
+    }
+    .card {
+      background: #fffcf8;
+      border-radius: 28px;
+      padding: 1.8rem 1.6rem 1.8rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+      transition: 0.2s ease;
+      border: 1px solid #ede5db;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #cbb7a6;
+      box-shadow: 0 14px 28px -8px rgba(80, 60, 40, 0.08);
+    }
+    .card .card-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: #e5d9ce;
+      padding: 0.2rem 0.9rem;
+      border-radius: 30px;
+      display: inline-block;
+      margin-bottom: 0.7rem;
+      align-self: flex-start;
+      color: #2f251e;
+    }
+    .card h3 {
+      margin-top: 0.2rem;
+      font-size: 1.4rem;
+    }
+    .card p {
+      font-size: 0.95rem;
+      color: #3d352e;
+      flex: 1;
+    }
+    .card .meta {
+      font-size: 0.8rem;
+      color: #7d6b5b;
+      margin-top: 0.8rem;
+      border-top: 1px solid #e7dbd0;
+      padding-top: 0.8rem;
+    }
+    .card img {
+      width: 100%;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+      max-height: 160px;
+      object-fit: cover;
+    }
+    /* two-col layout for guides / resources */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      margin: 2.5rem 0;
+    }
+    .col-box {
+      background: #fcf8f4;
+      padding: 1.8rem 2rem;
+      border-radius: 32px;
+      border: 1px solid #e6dbd1;
+    }
+    .col-box ul, .col-box ol {
+      margin-left: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .col-box li {
+      margin-bottom: 0.4rem;
+    }
+    /* table / comparison */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 2rem 0;
+      background: #fcf8f4;
+      border-radius: 28px;
+      border: 1px solid #e3d7cb;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th {
+      background: #e7dbd0;
+      text-align: left;
+      padding: 0.8rem 1.2rem;
+      font-weight: 600;
+    }
+    td {
+      padding: 0.8rem 1.2rem;
+      border-bottom: 1px solid #e3d7cb;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    /* FAQ */
+    .faq-item {
+      border-bottom: 1px solid #ddd0c3;
+      padding: 1rem 0;
+    }
+    .faq-item strong {
+      display: block;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .faq-item p {
+      margin-bottom: 0.3rem;
+    }
+    /* newsletter */
+    .newsletter {
+      background: #e1d3c6;
+      padding: 2.5rem 2.5rem;
+      border-radius: 60px 20px 60px 20px;
+      margin: 3.5rem 0 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .newsletter h3 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+    .newsletter p {
+      margin: 0.5rem 0 0;
+      max-width: 70%;
+    }
+    .newsletter .btn {
+      background: #2a241e;
+    }
+    .newsletter .btn:hover {
+      background: #4f3f32;
+    }
+    /* footer */
+    .footer {
+      border-top: 2px solid #ddd0c3;
+      padding: 2.5rem 0 1rem;
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: #5b4d3f;
+    }
+    .footer a {
+      border-bottom: none;
+      color: #5b4d3f;
+    }
+    .footer a:hover {
+      color: #2a241e;
+      border-bottom: 1px solid #2a241e;
+    }
+    /* responsive */
+    @media (max-width: 700px) {
+      body { padding: 0 0.8rem; }
+      h1 { font-size: 2rem; }
+      .hero { padding: 1.8rem; }
+      .two-col { grid-template-columns: 1fr; }
+      .nav-links { gap: 1rem; flex-wrap: wrap; }
+      .hero-image { margin-top: 1.2rem; }
+      .newsletter { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+    /* minimal images, content-first */
+    img {
+      max-width: 100%;
+      display: block;
+    }
+    hr {
+      border: none;
+      border-top: 2px dashed #d3c3b4;
+      margin: 2.5rem 0;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- header -->
+  <header class="site-header">
+    <div class="logo">Ember <span>Pantry Mosaic</span></div>
+    <div class="nav-links">
+   <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="terms.html">Terms Of Privacy</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+					<li><a href="cookies.html">Cookies Policy</a></li>
+    </div>
+  </header>
+
+  <!-- hero section : detailed intro + niche overview -->
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Where recipe wisdom meets craft</h1>
+      <p>Ember Pantry Mosaic is an independent recipe authority — devoted to technique, tradition, and the quiet alchemy of cooking. From heirloom grains to modern fermentation, we explore the layered stories behind every dish.</p>
+      <div class="featured-topics">
+        <span>fermentation</span>
+        <span>sourdough</span>
+        <span>seasonal produce</span>
+        <span>heritage grains</span>
+        <span>preserving</span>
+      </div>
+    </div>
+    <div class="hero-image">
+      <!-- hero image 1/4 -->
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='180' viewBox='0 0 240 180'%3E%3Crect width='240' height='180' fill='%23d6c5b6'/%3E%3Ccircle cx='120' cy='90' r='48' fill='%23b09782'/%3E%3Ccircle cx='120' cy='90' r='24' fill='%23947b66'/%3E%3C/svg%3E" alt="Ember Pantry Mosaic – artisan cooking" style="max-width:220px;">
+    </div>
+  </div>
+
+  <!-- featured articles (2 cards) -->
+  <h2>Featured articles</h2>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-tag">technique</span>
+      <!-- featured article image 2/4 -->
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180' viewBox='0 0 400 180'%3E%3Crect width='400' height='180' fill='%23dacebf'/%3E%3Cpath d='M50 90 L100 40 L160 80 L220 30 L280 70 L340 40 L380 80 L380 140 L50 140Z' fill='%239a816b' opacity='0.6'/%3E%3C/svg%3E" alt="fermentation feature">
+      <h3>The art of wild fermentation</h3>
+      <p>Beyond kraut: how to build a living pantry with brine, whey, and time. A deep guide to vegetable ferments, from kimchi to summer pickles.</p>
+      <div class="meta">9 min read · 12 Jan 2026</div>
+    </div>
+    <div class="card">
+      <span class="card-tag">guide</span>
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='180' viewBox='0 0 400 180'%3E%3Crect width='400' height='180' fill='%23d4c2b2'/%3E%3Ccircle cx='120' cy='80' r='40' fill='%239f8979'/%3E%3Ccircle cx='280' cy='80' r='30' fill='%23b29985'/%3E%3C/svg%3E" alt="sourdough guide">
+      <h3>Mastering sourdough: hydration & rhythm</h3>
+      <p>From stiff starter to lacy crumb — learn to read your dough, control fermentation, and bake loaves that sing with character.</p>
+      <div class="meta">14 min read · 5 Jan 2026</div>
+    </div>
+  </div>
+
+  <!-- beginner guides + expert resources (two-col) -->
+  <div class="two-col">
+    <div class="col-box">
+      <h3 style="margin-top:0;">🌟 Beginner guides</h3>
+      <ul>
+        <li><a href="#">First sourdough: a 7-day roadmap</a></li>
+        <li><a href="#">Knife skills: the claw & the rock</a></li>
+        <li><a href="#">How to season cast iron (once and for all)</a></li>
+        <li><a href="#">Pantry staples: rice, beans, and beyond</a></li>
+      </ul>
+    </div>
+    <div class="col-box">
+      <h3 style="margin-top:0;">🧑‍🍳 Expert resources</h3>
+      <ul>
+        <li><a href="#">Hydration calculators & baker’s percentages</a></li>
+        <li><a href="#">Flavor layering: umami, acid, heat</a></li>
+        <li><a href="#">Fermentation logs and pH tracking</a></li>
+        <li><a href="#">Whole grain milling at home</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- popular categories + trending topics (compact) -->
+  <div style="display:flex; flex-wrap:wrap; gap:1.5rem 3rem; background:#f6efe8; padding:1.8rem 2rem; border-radius:40px; margin:2rem 0;">
+    <div><strong style="font-size:1.2rem;">📂 Categories</strong><br> 
+      <span style="display:inline-block; margin-top:0.5rem; background:#fff; padding:0.2rem 1.2rem; border-radius:40px;">Ferments</span>
+      <span style="display:inline-block; margin-top:0.5rem; background:#fff; padding:0.2rem 1.2rem; border-radius:40px;">Sourdough</span>
+      <span style="display:inline-block; margin-top:0.5rem; background:#fff; padding:0.2rem 1.2rem; border-radius:40px;">Seasonal</span>
+      <span style="display:inline-block; margin-top:0.5rem; background:#fff; padding:0.2rem 1.2rem; border-radius:40px;">Preserves</span>
+    </div>
+    <div><strong style="font-size:1.2rem;">🔥 Trending</strong><br>
+      <span style="display:inline-block; margin-top:0.5rem;">· Sourdough discard recipes</span><br>
+      <span style="display:inline-block;">· Quick pickles 3 ways</span><br>
+      <span style="display:inline-block;">· Ancient grains guide</span>
+    </div>
+  </div>
+
+  <!-- latest articles (3 cards) -->
+  <h2>Latest from the pantry</h2>
+  <div class="card-grid">
+    <div class="card"><span class="card-tag">recipe</span><h3>Barley & mushroom stew</h3><p>A humble, deeply savory bowl with pearl barley, dried porcini, and caramelized onions. Perfect for winter nights.</p><div class="meta">6 Jan 2026</div></div>
+    <div class="card"><span class="card-tag">technique</span><h3>Salt‑brining for moisture</h3><p>Dry vs wet brine — and why equilibrium brining gives you juicy chicken, pork, and even vegetables.</p><div class="meta">3 Jan 2026</div></div>
+    <div class="card"><span class="card-tag">guide</span><h3>Building a sourdough starter</h3><p>Day-by-day visual guide: from flour + water to bubbly, active starter. Troubleshooting included.</p><div class="meta">30 Dec 2025</div></div>
+  </div>
+
+  <!-- in-depth tutorials: comparison table & checklist -->
+  <h2>In‑depth tutorials</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Method</th><th>Time</th><th>Best for</th><th>Difficulty</th></tr>
+      <tr><td>Wild fermentation (brine)</td><td>5–14 days</td><td>Vegetables, kraut</td><td>Intermediate</td></tr>
+      <tr><td>Quick pickling (vinegar)</td><td>1–4 hours</td><td>Quick sides, onions</td><td>Beginner</td></tr>
+      <tr><td>Sourdough long fermentation</td><td>12–48h</td><td>Artisan bread, pizza</td><td>Advanced</td></tr>
+    </table>
+  </div>
+  <div style="background:#f5ede5; padding:1.2rem 2rem; border-radius:40px; margin:1.5rem 0;">
+    <strong>📋 Checklist for your first sourdough</strong>
+    <ul style="margin-top:0.6rem; columns:2; column-gap:2rem;">
+      <li>✓ Starter 7 days old</li>
+      <li>✓ Whole wheat & bread flour</li>
+      <li>✓ Digital scale</li>
+      <li>✓ Banneton or bowl</li>
+      <li>✓ Dutch oven</li>
+      <li>✓ Patience</li>
+    </ul>
+  </div>
+
+  <!-- resource hub (curated) -->
+  <h2>Resource hub</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:1rem 2rem; background:#fcf8f4; padding:1.5rem 2rem; border-radius:40px; margin:1rem 0 2rem;">
+    <div><strong>📖 Books</strong><br> <span style="font-size:0.95rem;">Tartine · Nourishing Traditions · Flour Water Salt Yeast</span></div>
+    <div><strong>🔧 Tools</strong><br> <span style="font-size:0.95rem;">Bench scraper · crock · cambro · thermometer</span></div>
+    <div><strong>🌾 Mills</strong><br> <span style="font-size:0.95rem;">Mockmill · Komo · hand mills</span></div>
+  </div>
+
+  <!-- FAQ (structured for schema) -->
+  <h2>Frequently asked questions</h2>
+  <div class="faq-item"><strong>What’s the best flour for sourdough?</strong><p>Bread flour or a mix of whole wheat and strong white flour. Freshly milled grains add incredible depth.</p></div>
+  <div class="faq-item"><strong>How do I keep my starter healthy?</strong><p>Feed regularly, store at room temp or fridge, and use unchlorinated water. A consistent feeding schedule builds strength.</p></div>
+  <div class="faq-item"><strong>Can I ferment without salt?</strong><p>Salt controls undesirable bacteria and improves texture. For salt‑free ferments, consider using whey or a starter culture.</p></div>
+
+  <!-- newsletter -->
+  <div class="newsletter">
+    <div><h3>📬 The Mosaic Letter</h3><p>Weekly recipes, techniques, and stories from our kitchen. No spam, just substance.</p></div>
+    <a href="#" class="btn">Subscribe</a>
+  </div>
+
+  <!-- footer -->
+  <footer class="footer">
+    <div>© 2026 Ember Pantry Mosaic · recipe authority</div>
+    <div>
+      <a href="#">About</a> · <a href="#">Contact</a> · <a href="#">Privacy</a> · <a href="#">Newsletter</a>
+    </div>
+  </footer>
+</div>
+<!-- minimal images used: hero image, featured article image, category image (inline), no extra -->
+</body>
+</html>

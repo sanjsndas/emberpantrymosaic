@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About · Ember Pantry Mosaic</title>
+  <!-- Font & minimal style, unique typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:opsz,wght@14..32,400;14..32,600;14..32,700&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9f5f0;
+      color: #2a241e;
+      line-height: 1.7;
+      padding: 0 1.5rem;
+    }
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 1.5rem 0 3rem;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Source Serif Pro', serif;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+    h2 {
+      font-size: 2rem;
+      border-bottom: 2px solid #d8cdc0;
+      padding-bottom: 0.4rem;
+      margin-top: 3rem;
+    }
+    h3 {
+      font-size: 1.5rem;
+      margin-top: 1.8rem;
+    }
+    p {
+      margin-bottom: 1.25rem;
+      font-weight: 350;
+      max-width: 75ch;
+    }
+    a {
+      color: #8b5e3c;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px dotted #d4bfae;
+    }
+    a:hover {
+      color: #4c3522;
+      border-bottom: 2px solid #8b5e3c;
+    }
+    .btn {
+      display: inline-block;
+      background: #2a241e;
+      color: #f9f5f0;
+      padding: 0.6rem 1.6rem;
+      border-radius: 40px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      border: none;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      border-bottom: none;
+    }
+    .btn:hover {
+      background: #4f3f32;
+      color: #fff;
+      border-bottom: none;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #2a241e;
+      color: #2a241e;
+    }
+    .btn-outline:hover {
+      background: #2a241e;
+      color: #f9f5f0;
+    }
+    .site-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0 1rem;
+      border-bottom: 2px solid #e1d5c9;
+      margin-bottom: 2rem;
+    }
+    .logo {
+      font-family: 'Source Serif Pro', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #3b2c1e;
+    }
+    .logo span {
+      color: #9d7a5c;
+      font-weight: 400;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    .nav-links a {
+      border-bottom: none;
+      color: #3b2c1e;
+    }
+    .nav-links a:hover {
+      color: #8b5e3c;
+      border-bottom: 2px solid #8b5e3c;
+    }
+    .hero {
+      background: #eee7df;
+      padding: 2.8rem 2.8rem;
+      border-radius: 40px;
+      margin-bottom: 3.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    }
+    .hero-content {
+      flex: 2;
+      min-width: 280px;
+    }
+    .hero-content h1 {
+      margin-top: 0;
+      font-size: 2.6rem;
+    }
+    .hero-content p {
+      font-size: 1.1rem;
+      max-width: 90%;
+    }
+    .hero-image {
+      flex: 1;
+      min-width: 140px;
+      text-align: right;
+    }
+    .hero-image img {
+      max-width: 100%;
+      border-radius: 60px 20px 60px 20px;
+      box-shadow: 0 12px 24px -8px rgba(0,0,0,0.1);
+    }
+    .featured-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem 1.2rem;
+      margin-top: 1.2rem;
+    }
+    .featured-topics span {
+      background: #ffffffd0;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      border: 1px solid #d3c3b4;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      margin: 2.5rem 0;
+    }
+    .col-box {
+      background: #fcf8f4;
+      padding: 1.8rem 2rem;
+      border-radius: 32px;
+      border: 1px solid #e6dbd1;
+    }
+    .col-box ul, .col-box ol {
+      margin-left: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .col-box li {
+      margin-bottom: 0.4rem;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    .team-card {
+      background: #fffcf8;
+      border-radius: 28px;
+      padding: 1.5rem 1.2rem;
+      border: 1px solid #ede5db;
+      text-align: center;
+    }
+    .team-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 0.8rem;
+      background: #d6c5b6;
+    }
+    .footer {
+      border-top: 2px solid #ddd0c3;
+      padding: 2.5rem 0 1rem;
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: #5b4d3f;
+    }
+    .footer a {
+      border-bottom: none;
+      color: #5b4d3f;
+    }
+    .footer a:hover {
+      color: #2a241e;
+      border-bottom: 1px solid #2a241e;
+    }
+    @media (max-width: 700px) {
+      body { padding: 0 0.8rem; }
+      h1 { font-size: 2rem; }
+      .hero { padding: 1.8rem; }
+      .two-col { grid-template-columns: 1fr; }
+      .nav-links { gap: 1rem; flex-wrap: wrap; }
+      .hero-image { margin-top: 1.2rem; }
+    }
+    img {
+      max-width: 100%;
+      display: block;
+    }
+    hr {
+      border: none;
+      border-top: 2px dashed #d3c3b4;
+      margin: 2.5rem 0;
+    }
+    .mission-quote {
+      font-size: 1.4rem;
+      font-family: 'Source Serif Pro', serif;
+      background: #f5ede5;
+      padding: 2rem 2.5rem;
+      border-radius: 60px 20px 60px 20px;
+      margin: 2rem 0;
+      color: #3b2c1e;
+      border-left: 6px solid #9d7a5c;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- header -->
+  <header class="site-header">
+    <div class="logo">Ember <span>Pantry Mosaic</span></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html" style="border-bottom: 2px solid #8b5e3c;">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="terms.html">Terms Of Privacy</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="cookies.html">Cookies Policy</a>
+    </div>
+  </header>
+
+  <!-- about hero -->
+  <div class="hero">
+    <div class="hero-content">
+      <h1>About Ember Pantry Mosaic</h1>
+      <p>We are a small, independent kitchen collective devoted to the craft of cooking — from heritage grains to wild ferments, and every layered story in between. Founded in 2019, we believe that recipes are living documents, shaped by soil, season, and hands.</p>
+      <div class="featured-topics">
+        <span>est. 2019</span>
+        <span>craft & tradition</span>
+        <span>small batch</span>
+        <span>community</span>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='180' viewBox='0 0 240 180'%3E%3Crect width='240' height='180' fill='%23d6c5b6'/%3E%3Ccircle cx='120' cy='90' r='48' fill='%23b09782'/%3E%3Ccircle cx='120' cy='90' r='24' fill='%23947b66'/%3E%3C/svg%3E" alt="Ember Pantry Mosaic – about" style="max-width:220px;">
+    </div>
+  </div>
+
+  <!-- mission & philosophy -->
+  <div class="mission-quote">
+    “Cooking is not about perfection — it’s about presence. We honor the ingredients, the hands that grew them, and the fire that transforms.”
+  </div>
+
+  <div class="two-col">
+    <div class="col-box">
+      <h3 style="margin-top:0;">🔥 Our philosophy</h3>
+      <p>We champion <strong>technique over trend</strong>, and depth over speed. Every recipe on this site has been tested at least a dozen times, in home kitchens, with imperfect equipment. We believe in <strong>slow knowledge</strong> — the kind that builds over years of baking, fermenting, and tasting.</p>
+      <p>Our work is rooted in <strong>seasonal awareness</strong>, <strong>heirloom ingredients</strong>, and a deep respect for the cooks who came before us. We are not influencers; we are practitioners.</p>
+    </div>
+    <div class="col-box">
+      <h3 style="margin-top:0;">🌾 What we do</h3>
+      <ul>
+        <li>Publish original, rigorously tested recipes</li>
+        <li>Explore fermentation, sourdough, and whole grains</li>
+        <li>Document traditional preserving techniques</li>
+        <li>Offer guides for bakers, fermenters, and home cooks</li>
+        <li>Curate a resource hub for food crafters</li>
+      </ul>
+      <p style="margin-top:0.8rem;">We also host small workshops and publish a weekly newsletter, <strong>The Mosaic Letter</strong>, which dives deep into one ingredient or technique each week.</p>
+    </div>
+  </div>
+
+  <!-- team section -->
+  <h2>Meet the mosaic</h2>
+  <p style="max-width:70ch;">Our team is small, curious, and fiercely passionate about the alchemy of cooking. We work from our home kitchens across the country, sharing notes and loaves.</p>
+  <div class="team-grid">
+    <div class="team-card">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='90' fill='%23cbb7a6'/%3E%3Ccircle cx='100' cy='80' r='30' fill='%23947b66'/%3E%3Cpath d='M70 130 Q100 150 130 130' stroke='%236b5748' stroke-width='6' fill='none'/%3E%3C/svg%3E" alt="Elena">
+      <h4 style="margin:0.5rem 0 0.2rem;">Elena R.</h4>
+      <p style="font-size:0.9rem; color:#5b4d3f;">Founder · sourdough & grains</p>
+    </div>
+    <div class="team-card">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='90' fill='%23d4c2b2'/%3E%3Ccircle cx='100' cy='80' r='30' fill='%239f8979'/%3E%3Cpath d='M70 130 Q100 150 130 130' stroke='%236b5748' stroke-width='6' fill='none'/%3E%3C/svg%3E" alt="Marcus">
+      <h4 style="margin:0.5rem 0 0.2rem;">Marcus V.</h4>
+      <p style="font-size:0.9rem; color:#5b4d3f;">Fermentation & preserving</p>
+    </div>
+    <div class="team-card">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='90' fill='%23dacebf'/%3E%3Ccircle cx='100' cy='80' r='30' fill='%23947b66'/%3E%3Cpath d='M70 130 Q100 150 130 130' stroke='%236b5748' stroke-width='6' fill='none'/%3E%3C/svg%3E" alt="Juniper">
+      <h4 style="margin:0.5rem 0 0.2rem;">Juniper K.</h4>
+      <p style="font-size:0.9rem; color:#5b4d3f;">Seasonal produce & foraging</p>
+    </div>
+    <div class="team-card">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='90' fill='%23e1d5c9'/%3E%3Ccircle cx='100' cy='80' r='30' fill='%23a68b78'/%3E%3Cpath d='M70 130 Q100 150 130 130' stroke='%236b5748' stroke-width='6' fill='none'/%3E%3C/svg%3E" alt="Sam">
+      <h4 style="margin:0.5rem 0 0.2rem;">Sam W.</h4>
+      <p style="font-size:0.9rem; color:#5b4d3f;">Baking & pastry arts</p>
+    </div>
+  </div>
+
+  <!-- what we believe: core values -->
+  <h2>Core values</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:1.5rem; background:#fcf8f4; padding:2rem; border-radius:40px; margin:1.5rem 0;">
+    <div style="flex:1; min-width:180px;"><strong style="font-size:1.3rem;">🧂 Integrity</strong><br>We test every recipe until it works in a real home kitchen. No shortcuts.</div>
+    <div style="flex:1; min-width:180px;"><strong style="font-size:1.3rem;">🌱 Curiosity</strong><br>We ask “why” — and share the stories behind ingredients and techniques.</div>
+    <div style="flex:1; min-width:180px;"><strong style="font-size:1.3rem;">🫙 Craft</strong><br>We celebrate the hands-on work of cooking: kneading, stirring, fermenting.</div>
+  </div>
+
+  <!-- faq about the site -->
+  <h2>About this site</h2>
+  <div class="col-box" style="margin:1.5rem 0;">
+    <p><strong>Why “Ember Pantry Mosaic”?</strong> — The ember is the quiet heart of the fire, the persistent glow that transforms raw ingredients into nourishment. The pantry is our library of grains, salt, and preserved treasures. And the mosaic is the beautiful, imperfect whole — the sum of many techniques, traditions, and hands.</p>
+    <p><strong>How is this different from other recipe sites?</strong> — We don’t use SEO clickbait, and we don’t rush. Each article is a deep dive, not a quick scroll. We also avoid sponsored content that compromises our integrity.</p>
+    <p><strong>Do you accept guest posts?</strong> — We occasionally collaborate with like-minded food writers and fermenters. Reach out via our contact page.</p>
+  </div>
+
+  <!-- newsletter -->
+  <div style="background: #e1d3c6; padding: 2.5rem 2.5rem; border-radius: 60px 20px 60px 20px; margin: 3rem 0 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+    <div><h3 style="margin:0; font-size:1.8rem;">📬 The Mosaic Letter</h3><p style="margin:0.5rem 0 0; max-width:70%;">Weekly recipes, techniques, and stories from our kitchen. No spam, just substance.</p></div>
+    <a href="#" class="btn" style="background:#2a241e;">Subscribe</a>
+  </div>
+
+  <!-- footer -->
+  <footer class="footer">
+    <div>© 2026 Ember Pantry Mosaic · recipe authority</div>
+    <div>
+      <a href="about.html">About</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy</a> · <a href="newsletter.html">Newsletter</a>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
